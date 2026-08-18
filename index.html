@@ -73,7 +73,30 @@ body {
 }
 
 
-/* CONTROL BUTTONS */
+/* PROGRESS BAR */
+
+.progress-container {
+    width: 100%;
+    height: 9px;
+    background: #d6d6d6;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+#progressBar {
+    width: 0%;
+    height: 100%;
+    background: #0b3d91;
+}
+
+.time {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+
+/* CONTROLS */
 
 .controls {
     display: grid;
@@ -91,11 +114,7 @@ body {
     cursor: pointer;
 }
 
-.pause {
-    background: white;
-    color: #071b3c;
-}
-
+.pause,
 .restart {
     background: white;
     color: #071b3c;
@@ -116,7 +135,6 @@ body {
     font-size: 21px;
     font-weight: bold;
     margin-bottom: 15px;
-    text-align: left;
 }
 
 
@@ -129,15 +147,11 @@ body {
     background: #0b3d91;
     color: white;
     padding: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 11px;
     text-align: left;
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-}
-
-.song-button:hover {
-    opacity: .9;
 }
 
 .song-button:active {
@@ -156,18 +170,7 @@ body {
 }
 
 
-/* COMING SOON */
-
-.coming-soon {
-    border: 2px dashed #b6bdc9;
-    border-radius: 12px;
-    padding: 18px;
-    text-align: center;
-    opacity: .7;
-}
-
-
-/* STOP BUTTON */
+/* STOP */
 
 .stop-button {
     width: 100%;
@@ -197,7 +200,6 @@ body {
 }
 
 </style>
-
 </head>
 
 
@@ -214,7 +216,7 @@ body {
 
 <h2>JUNIORS</h2>
 
-<p>2026 Game Day Soundboard</p>
+<p>2026 GAME DAY SOUNDBOARD</p>
 
 </div>
 
@@ -232,11 +234,21 @@ NOW PLAYING
 Nothing Playing
 </div>
 
+<div class="progress-container">
+<div id="progressBar"></div>
+</div>
+
+<div class="time">
+<span id="currentTime">0:00</span>
+•
+<span id="duration">0:00</span>
+</div>
+
 </div>
 
 
 
-<!-- PLAYER CONTROLS -->
+<!-- CONTROLS -->
 
 <div class="controls">
 
@@ -322,15 +334,81 @@ Yosemite Badgers
 📣 SIDELINE MUSIC
 </div>
 
-<div class="coming-soon">
 
-<strong>MORE SONGS COMING</strong>
+<button
+class="song-button"
+onclick="playSong(
+'music/Sideline Hollywood.mp3',
+'Hollywood'
+)">
 
-<br><br>
+<span class="song-name">
+▶ HOLLYWOOD
+</span>
 
-Your sideline songs will go here.
+<span class="song-description">
+Sideline
+</span>
 
-</div>
+</button>
+
+
+
+<button
+class="song-button"
+onclick="playSong(
+'music/Sideline Get Silly.mp3',
+'Get Silly'
+)">
+
+<span class="song-name">
+▶ GET SILLY
+</span>
+
+<span class="song-description">
+Sideline
+</span>
+
+</button>
+
+
+
+<button
+class="song-button"
+onclick="playSong(
+'music/Sideline Brass.mp3',
+'Brass'
+)">
+
+<span class="song-name">
+▶ BRASS
+</span>
+
+<span class="song-description">
+Sideline
+</span>
+
+</button>
+
+
+
+<button
+class="song-button"
+onclick="playSong(
+'music/YBYC Seniors Hot to go 2.mp3',
+'Hot To Go'
+)">
+
+<span class="song-name">
+▶ HOT TO GO
+</span>
+
+<span class="song-description">
+Sideline
+</span>
+
+</button>
+
 
 </div>
 
@@ -354,7 +432,6 @@ YBYF JUNIORS • YOSEMITE BADGERS • 2026
 
 </div>
 
-
 </div>
 
 
@@ -362,7 +439,6 @@ YBYF JUNIORS • YOSEMITE BADGERS • 2026
 <script>
 
 let currentAudio = null;
-
 let currentSong = "";
 
 
@@ -370,11 +446,8 @@ let currentSong = "";
 function playSong(file, title) {
 
     if (currentAudio) {
-
         currentAudio.pause();
-
         currentAudio.currentTime = 0;
-
     }
 
     currentAudio = new Audio(file);
@@ -385,6 +458,42 @@ function playSong(file, title) {
 
     document.getElementById("nowPlaying").innerHTML =
     "🎵 " + title;
+
+
+    currentAudio.addEventListener("loadedmetadata", function() {
+
+        document.getElementById("duration").innerHTML =
+        formatTime(currentAudio.duration);
+
+    });
+
+
+    currentAudio.addEventListener("timeupdate", function() {
+
+        let percentage =
+        (currentAudio.currentTime / currentAudio.duration) * 100;
+
+        document.getElementById("progressBar").style.width =
+        percentage + "%";
+
+        document.getElementById("currentTime").innerHTML =
+        formatTime(currentAudio.currentTime);
+
+    });
+
+
+    currentAudio.addEventListener("ended", function() {
+
+        document.getElementById("nowPlaying").innerHTML =
+        "Nothing Playing";
+
+        document.getElementById("progressBar").style.width =
+        "0%";
+
+        document.getElementById("currentTime").innerHTML =
+        "0:00";
+
+    });
 
 }
 
@@ -403,7 +512,9 @@ function pauseMusic() {
         document.getElementById("nowPlaying").innerHTML =
         "🎵 " + currentSong;
 
-    } else {
+    }
+
+    else {
 
         currentAudio.pause();
 
@@ -446,13 +557,39 @@ function stopMusic() {
     document.getElementById("nowPlaying").innerHTML =
     "Nothing Playing";
 
+    document.getElementById("progressBar").style.width =
+    "0%";
+
+    document.getElementById("currentTime").innerHTML =
+    "0:00";
+
+    document.getElementById("duration").innerHTML =
+    "0:00";
+
 }
 
 
+
+function formatTime(seconds) {
+
+    if (isNaN(seconds)) {
+        return "0:00";
+    }
+
+    let minutes = Math.floor(seconds / 60);
+
+    let secs = Math.floor(seconds % 60);
+
+    if (secs < 10) {
+        secs = "0" + secs;
+    }
+
+    return minutes + ":" + secs;
+
+}
 
 </script>
 
 
 </body>
-
 </html>
