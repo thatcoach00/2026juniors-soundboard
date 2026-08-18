@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Yosemite Badgers Soundboard</title>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #071b3c;
+    color: white;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    opacity: .8;
+    margin-bottom: 30px;
+}
+
+.section {
+    background: white;
+    color: #071b3c;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+}
+
+.section h2 {
+    margin-top: 0;
+}
+
+.song {
+    width: 100%;
+    background: #0b3d91;
+    color: white;
+    border: none;
+    padding: 18px;
+    margin: 7px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.song:active {
+    transform: scale(.98);
+}
+
+.stop {
+    width: 100%;
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 20px;
+    margin-top: 10px;
+    font-size: 21px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#nowplaying {
+    margin: 15px 0 25px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>🏈 YOSEMITE BADGERS</h1>
+<div class="subtitle">GAME DAY MUSIC</div>
+
+<div id="nowplaying">
+Nothing Playing
+</div>
+
+
+<div class="section">
+
+<h2>JUNIORS</h2>
+
+<button class="song"
+onclick="playSong('music/juniors-halftime.mp3','Juniors — Game 1 Halftime')">
+▶️ Game 1 — Halftime
+</button>
+
+<button class="song"
+onclick="playSong('music/juniors-timeout1.mp3','Juniors — Timeout 1')">
+▶️ Timeout 1
+</button>
+
+<button class="song"
+onclick="playSong('music/juniors-timeout2.mp3','Juniors — Timeout 2')">
+▶️ Timeout 2
+</button>
+
+<button class="song"
+onclick="playSong('music/juniors-fourthquarter.mp3','Juniors — 4th Quarter')">
+▶️ 4th Quarter
+</button>
+
+</div>
+
+
+<div class="section">
+
+<h2>PEE WEE</h2>
+
+<button class="song"
+onclick="playSong('music/pinky-up.mp3','Pee Wee — Pinky Up')">
+▶️ Pinky Up
+</button>
+
+<button class="song"
+onclick="playSong('music/peewee-halftime.mp3','Pee Wee — Halftime')">
+▶️ Halftime
+</button>
+
+<button class="song"
+onclick="playSong('music/peewee-timeout.mp3','Pee Wee — Timeout')">
+▶️ Timeout
+</button>
+
+</div>
+
+
+<div class="section">
+
+<h2>GAME MUSIC</h2>
+
+<button class="song"
+onclick="playSong('music/touchdown.mp3','Touchdown')">
+▶️ Touchdown
+</button>
+
+<button class="song"
+onclick="playSong('music/defense.mp3','Defense')">
+▶️ Defense
+</button>
+
+<button class="song"
+onclick="playSong('music/hype.mp3','Hype')">
+▶️ Hype
+</button>
+
+<button class="song"
+onclick="playSong('music/victory.mp3','Victory')">
+▶️ Victory
+</button>
+
+</div>
+
+
+<button class="stop" onclick="stopMusic()">
+⏹ STOP ALL MUSIC
+</button>
+
+</div>
+
+
+<script>
+
+let currentAudio = null;
+
+function playSong(file, title) {
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+
+    currentAudio = new Audio(file);
+
+    currentAudio.play();
+
+    document.getElementById("nowplaying").innerHTML =
+    "🎵 NOW PLAYING: " + title;
+
+}
+
+
+function stopMusic() {
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+
+    document.getElementById("nowplaying").innerHTML =
+    "Nothing Playing";
+
+}
+
+</script>
+
+</body>
+</html>
