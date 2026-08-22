@@ -29,7 +29,7 @@ body {
 
 .header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .header h1 {
@@ -48,6 +48,26 @@ body {
 }
 
 
+/* STOP BUTTON */
+
+.stop-button {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: #c62828;
+    color: white;
+    padding: 22px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.stop-button:active {
+    transform: scale(.98);
+}
+
+
 /* NOW PLAYING */
 
 .now-playing {
@@ -55,7 +75,7 @@ body {
     color: #071b3c;
     border-radius: 15px;
     padding: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: center;
 }
 
@@ -73,7 +93,7 @@ body {
 }
 
 
-/* PROGRESS BAR */
+/* PROGRESS */
 
 .progress-container {
     width: 100%;
@@ -112,10 +132,6 @@ body {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-}
-
-.pause,
-.restart {
     background: white;
     color: #071b3c;
 }
@@ -169,29 +185,6 @@ body {
     opacity: .75;
 }
 
-
-/* STOP */
-
-.stop-button {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    background: #c62828;
-    color: white;
-    padding: 22px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 30px;
-}
-
-.stop-button:active {
-    transform: scale(.98);
-}
-
-
-/* FOOTER */
-
 .footer {
     text-align: center;
     font-size: 12px;
@@ -221,6 +214,16 @@ body {
 </div>
 
 
+<!-- STOP BUTTON AT TOP -->
+
+<button
+class="stop-button"
+onclick="stopMusic()">
+
+⏹ STOP ALL MUSIC
+
+</button>
+
 
 <!-- NOW PLAYING -->
 
@@ -247,25 +250,23 @@ Nothing Playing
 </div>
 
 
-
 <!-- CONTROLS -->
 
 <div class="controls">
 
 <button
-class="control-button pause"
+class="control-button"
 onclick="pauseMusic()">
 ⏸ PAUSE / RESUME
 </button>
 
 <button
-class="control-button restart"
+class="control-button"
 onclick="restartMusic()">
 ↺ RESTART
 </button>
 
 </div>
-
 
 
 <!-- HALFTIME -->
@@ -296,7 +297,6 @@ YBYF Juniors • 2026
 </div>
 
 
-
 <!-- FIGHT SONG -->
 
 <div class="section">
@@ -325,7 +325,6 @@ Yosemite Badgers
 </div>
 
 
-
 <!-- SIDELINE -->
 
 <div class="section">
@@ -335,8 +334,7 @@ Yosemite Badgers
 </div>
 
 
-<button
-class="song-button"
+<button class="song-button"
 onclick="playSong(
 'music/Sideline Hollywood.mp3',
 'Hollywood'
@@ -353,9 +351,7 @@ Sideline
 </button>
 
 
-
-<button
-class="song-button"
+<button class="song-button"
 onclick="playSong(
 'music/Sideline Get Silly.mp3',
 'Get Silly'
@@ -372,9 +368,7 @@ Sideline
 </button>
 
 
-
-<button
-class="song-button"
+<button class="song-button"
 onclick="playSong(
 'music/Sideline Brass.mp3',
 'Brass'
@@ -391,9 +385,7 @@ Sideline
 </button>
 
 
-
-<button
-class="song-button"
+<button class="song-button"
 onclick="playSong(
 'music/YBYC Seniors Hot to go 2.mp3',
 'Hot To Go'
@@ -410,11 +402,47 @@ Sideline
 </button>
 
 
+<!-- NEW: COTTON EYE JOE -->
+
+<button class="song-button"
+onclick="playSong(
+'music/Sideline Cotten Eye Joe.mp3',
+'Cotton Eye Joe'
+)">
+
+<span class="song-name">
+▶ COTTON EYE JOE
+</span>
+
+<span class="song-description">
+Sideline
+</span>
+
+</button>
+
+
+<!-- NEW: PINK FRIDAY -->
+
+<button class="song-button"
+onclick="playSong(
+'music/Sideline Pink Friday.mp3',
+'Pink Friday'
+)">
+
+<span class="song-name">
+▶ PINK FRIDAY
+</span>
+
+<span class="song-description">
+Sideline
+</span>
+
+</button>
+
 </div>
 
 
-
-<!-- STOP -->
+<!-- SECOND STOP BUTTON -->
 
 <button
 class="stop-button"
@@ -423,7 +451,6 @@ onclick="stopMusic()">
 ⏹ STOP ALL MUSIC
 
 </button>
-
 
 
 <div class="footer">
@@ -435,12 +462,10 @@ YBYF JUNIORS • YOSEMITE BADGERS • 2026
 </div>
 
 
-
 <script>
 
 let currentAudio = null;
 let currentSong = "";
-
 
 
 function playSong(file, title) {
@@ -451,7 +476,6 @@ function playSong(file, title) {
     }
 
     currentAudio = new Audio(file);
-
     currentSong = title;
 
     currentAudio.play();
@@ -498,12 +522,9 @@ function playSong(file, title) {
 }
 
 
-
 function pauseMusic() {
 
-    if (!currentAudio) {
-        return;
-    }
+    if (!currentAudio) return;
 
     if (currentAudio.paused) {
 
@@ -512,9 +533,7 @@ function pauseMusic() {
         document.getElementById("nowPlaying").innerHTML =
         "🎵 " + currentSong;
 
-    }
-
-    else {
+    } else {
 
         currentAudio.pause();
 
@@ -526,15 +545,11 @@ function pauseMusic() {
 }
 
 
-
 function restartMusic() {
 
-    if (!currentAudio) {
-        return;
-    }
+    if (!currentAudio) return;
 
     currentAudio.currentTime = 0;
-
     currentAudio.play();
 
     document.getElementById("nowPlaying").innerHTML =
@@ -543,13 +558,11 @@ function restartMusic() {
 }
 
 
-
 function stopMusic() {
 
     if (currentAudio) {
 
         currentAudio.pause();
-
         currentAudio.currentTime = 0;
 
     }
@@ -569,15 +582,11 @@ function stopMusic() {
 }
 
 
-
 function formatTime(seconds) {
 
-    if (isNaN(seconds)) {
-        return "0:00";
-    }
+    if (isNaN(seconds)) return "0:00";
 
     let minutes = Math.floor(seconds / 60);
-
     let secs = Math.floor(seconds % 60);
 
     if (secs < 10) {
@@ -589,7 +598,6 @@ function formatTime(seconds) {
 }
 
 </script>
-
 
 </body>
 </html>
